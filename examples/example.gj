@@ -1,0 +1,40 @@
+println "=== GOJO LANG :: example.gj ==="
+println "Booting..."
+println ""
+
+int t
+string mode
+mode = "Infinity"
+
+println "Mode: {mode}"
+println "Charging Hollow Purple..."
+println ""
+
+for t = 5 to 1 but -1
+    println "[{t}] Stabilizing vectors..."
+con
+
+println ""
+println "Blue + Red -> Purple"
+println ""
+
+int i, j
+for i = 1 to 8
+    for j = 1 to i
+        print "#"
+    con
+    println "  power={i*i}"
+con
+
+println ""
+double x
+x = 0.0
+
+while x <= 1
+    println "Limit(x) -> {x}  |  isnt_one? {x isnt 1.0}"
+    x = x + 0.25
+end
+
+println ""
+println ">>> HOLLOW PURPLE: {5*5*5} <<<"
+println "Screen washed in purple."
