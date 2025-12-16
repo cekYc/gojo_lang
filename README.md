@@ -2,11 +2,12 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-6.0-blue.svg)
+![Version](https://img.shields.io/badge/version-7.0-red.svg)
 ![Python](https://img.shields.io/badge/python-3.8+-green.svg)
 ![License](https://img.shields.io/badge/license-MIT-purple.svg)
+![Build](https://img.shields.io/badge/build-modular-orange.svg)
 
-**A minimalist scripting language interpreter inspired by Gojo Satoru** 
+**A minimalist, Turing-complete interpreted language inspired by Gojo Satoru.**
 
 *"Throughout Heaven and Earth, I alone am the honored one."*
 
@@ -14,23 +15,31 @@
 
 ---
 
+## 🚀 What is New in v7.0 (The Limitless Update)?
+- **Modular Architecture:** The core engine has been refactored into modular components (`core`, `state`, `stdlib`).
+- **Standard Library:** Built-in support for Math (`sqrt`, `pow`, `abs`) and Randomness (`random`).
+- **Dynamic Memory:** Full support for dynamic arrays using `add` and `len`.
+- **Enhanced Logic:** Improved parser stability and memory management.
+
+---
+
 ## Features
 
 | Feature | Syntax | Description |
 |---------|--------|-------------|
-| **Variables** | `int`, `string`, `double`, `bool`, `char` | Strongly typed variables |
-| **Arrays** | `int[]`, `string[]` | Array support |
+| **Variables** | `int`, `string`, `double`, `bool` | Strongly typed variables |
+| **Dynamic Arrays** | `array[]`, `add`, `len()` | List manipulation |
+| **Math & Random** | `sqrt()`, `pow()`, `random()` | Built-in standard library |
 | **Output** | `print`, `println` | Console output |
 | **Conditionals** | `if` / `else` / `finn` | Conditional branching |
-| **While Loop** | `while` / `end` | While loops |
-| **For Loop** | `for ... to ... but step` / `con` | For loops with custom step |
-| **String Formatting** | `"Hello {name}"` | Inline expression evaluation |
-| **Operators** | `isnt`, `&&`, `\|\|`, `!` | Logical operators |
+| **Loops** | `while`, `for ... to ...` | Iterative loops |
+| **Formatting** | `"Value: {x}"` | Inline expression evaluation |
+| **Operators** | `isnt`, `&&`, `||`, `!` | Logical operators |
 
 ## Installation
 
 ```bash
-git clone https://github.com/cekYc/gojo_lang.git
+git clone [https://github.com/cekYc/gojo_lang.git](https://github.com/cekYc/gojo_lang.git)
 cd gojo-lang
 ```
 
@@ -45,10 +54,35 @@ python3 src/main.py <filename.gj>
 ### Example
 
 ```bash
-python3 src/main.py examples/example.gj
+python3 src/main.py examples/moduler_test.gj
 ```
 
 ## Syntax Guide
+
+## Math & Random (New!)
+
+'''gojo
+Random number generation
+int luck = random(1, 100)
+Math functions
+double root = sqrt(144)    # 12.0
+double power = pow(2, 5)   # 32.0
+int absolute = abs(-50)    # 50
+'''
+
+## Dynamic Arrays (New!)
+
+'''gojo
+Define a dynamic array
+array[] basket = []
+
+Add items
+add basket "Apple"
+add basket "Banana"
+
+Get length
+println "Items count: {len(basket)}"
+'''
 
 ### Variables
 
@@ -111,9 +145,13 @@ if !flag             # not flag
 ```
 gojo-lang/
 ├── src/
-│   └── main.py          # Interpreter
+│   ├── main.py          # Entry point
+│   ├── core.py          # Interpreter Engine
+│   ├── state.py         # Memory Management
+│   ├── stdlib.py        # Standard Library (Math/Random)
+│   └── utils.py         # Parser Utilities
 ├── examples/
-│   └── example.gj       # Example program
+│   └── test.gj          # Full feature test
 ├── README.md
 ├── LICENSE
 └── .gitignore
@@ -122,7 +160,7 @@ gojo-lang/
 ## Example Output
 
 ```
-🚀 Gojo v6.0 (Isnt Update) Çalışıyor: examples/example.gj
+🚀 Gojo v7.0 (Modular Update) Çalışıyor: examples/example.gj
 
 ------------------------------
 === GOJO LANG :: example.gj ===
