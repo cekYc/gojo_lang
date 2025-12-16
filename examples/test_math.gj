@@ -1,0 +1,59 @@
+println "=== GOJO MATH & RANDOM TEST ==="
+println ""
+
+# 1. RANDOM (Rastgele Sayı)
+# random(min, max) -> İki sayı arasında rastgele değer verir.
+int sansli_sayi
+sansli_sayi = random(1, 100)
+println "Gunun sansli sayisi (1-100 arasi): {sansli_sayi}"
+
+println ""
+println "--- MATEMATIK FONKSIYONLARI ---"
+
+# 2. SQRT (Karekök) ve POW (Üs Alma)
+# sqrt(16) -> 4.0 verir.
+# pow(2, 3) -> 2 üzeri 3 yani 8.0 verir.
+int x = 16
+int taban = 2
+int us = 5
+
+println "Karekok {x} = {sqrt(x)}"
+println "{taban} uzeri {us} = {pow(taban, us)}"
+
+# 3. YUVARLAMA (Floor, Ceil)
+# floor: Aşağı yuvarlar (5.9 -> 5)
+# ceil: Yukarı yuvarlar (5.1 -> 6)
+double ondalik = 5.85
+println "Sayimiz: {ondalik}"
+println "Asagi Yuvarla (floor): {floor(ondalik)}"
+println "Yukari Yuvarla (ceil): {ceil(ondalik)}"
+
+# 4. MUTLAK DEĞER (Abs)
+# Negatif sayıyı pozitife çevirir.
+int negatif = -50
+println "Negatif Sayi: {negatif} -> Mutlak Deger: {abs(negatif)}"
+
+println ""
+println "--- UZUNLUK (LEN) ---"
+
+# 5. LEN (Uzunluk Ölçme)
+# Hem dizilerin (array) hem de yazıların (string) uzunluğunu ölçer.
+
+# Dizi Örneği
+int[] notlar = [10, 20, 30, 40, 50]
+println "Notlar Listesi: {notlar}"
+println "Listede kac not var? {len(notlar)}"
+
+# String Örneği
+string isim = "Gojo Satoru"
+println "Isim: {isim}"
+println "Isim kac harfli? {len(isim)}"
+
+# Dinamik Diziyle Kullanım
+int[] dinamik = []
+add dinamik 100
+add dinamik 200
+println "Dinamik dizi boyutu su an: {len(dinamik)}"
+
+println ""
+println "Test Tamamlandi."

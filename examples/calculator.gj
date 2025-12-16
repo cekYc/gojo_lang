@@ -20,6 +20,10 @@ while calisiyor
         println "Gule gule..."
         calisiyor = false
     else
+        if secim < 0 or secim > 5 #burada or yerine '||' de kullanilabilir
+            println "Gecersiz islem numarasi! Lutfen tekrar deneyin."
+        finn
+
         # Sayıları al (Ondalıklı olabilir diye double yaptık)
         double s1 = input "Birinci Sayi: "
         double s2 = input "Ikinci Sayi: "
@@ -39,8 +43,7 @@ while calisiyor
         finn
 
         if secim == 4
-            # YENİ ÖZELLİK: 'isnt' kullanımı!
-            if s2 isnt 0
+            if s2 isnt 0 # burada isnt yerine '!=' de kullanilabilir
                 println "SONUC: {s1} / {s2} = {s1 / s2}"
             else
                 println "HATA: Bir sayi 0'a bolunemez!"
@@ -51,7 +54,7 @@ while calisiyor
              # Mod almada double sorunu olmasın diye int'e çevirerek gösterelim
              println "SONUC: {s1} % {s2} = {s1 % s2}"
         finn
-        
+
         println "----------------"
     finn
 end

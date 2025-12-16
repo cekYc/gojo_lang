@@ -1,0 +1,37 @@
+println "=== GOJO ZAR OYUNU ==="
+
+int bakiye = 100
+int bahis
+int zar1
+int zar2
+
+while bakiye > 0
+    println "Mevcut Bakiyen: {bakiye} TL"
+    bahis = input "Bahis gir (Cikis icin 0): "
+    
+    if bahis == 0
+        println "Oyundan cikiliyor..."
+        bakiye = -1
+    else
+        if bahis > bakiye
+            println "Yetersiz bakiye!"
+        else
+            # RASTGELE SAYI OLUŞTURMA ARTIK MÜMKÜN!
+            zar1 = random(1, 6)
+            zar2 = random(1, 6)
+            
+            println "Zarlar atiliyor... {zar1} - {zar2}"
+            
+            if zar1 + zar2 > 7
+                println "Kazandin! ({zar1 + zar2} > 7)"
+                bakiye = bakiye + bahis
+            else
+                println "Kaybettin..."
+                bakiye = bakiye - bahis
+            finn
+        finn
+    finn
+    println "------------------"
+end
+
+println "Oyun Bitti."

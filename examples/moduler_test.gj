@@ -1,0 +1,127 @@
+println "========================================"
+println "   GOJO LANG v7.0 :: ULTIMATE TEST"
+println "========================================"
+println ""
+
+# --- BOLUM 1: DEGISKENLER VE MATEMATIK ---
+println "[1] DEGISKENLER & MATEMATIK"
+int a = 10
+int b = 3
+double pi = 3.14159
+double r = 5.0
+
+println "   a={a}, b={b}"
+println "   Toplama: {a} + {b} = {a + b}"
+println "   Mod Alma: {a} % {b} = {a % b}"
+println "   Daire Alani (pi*r^2): {pi * pow(r, 2)}"
+println "   Karekok (sqrt 144): {sqrt(144)}"
+println "   Mutlak Deger (abs -50): {abs(-50)}"
+println "   Yuvarlama (ceil 4.1): {ceil(4.1)}"
+println "----------------------------------------"
+
+# --- BOLUM 2: MANTIK VE KOSULLAR ---
+println "[2] MANTIK VE ISNT OPERATORU"
+bool oyun_bitti = false
+int can = 100
+
+if !oyun_bitti && can > 0
+    println "   [OK] Oyun devam ediyor (!oyun_bitti && can>0)"
+else
+    println "   [FAIL] Mantik hatasi!"
+finn
+
+if can isnt 0
+    println "   [OK] 'isnt' operatoru calisiyor (can isnt 0)"
+else
+    println "   [FAIL] 'isnt' bozuk!"
+finn
+
+int x = 5
+if x >= 5 || x < 0
+    println "   [OK] '||' (OR) operatoru calisiyor"
+finn
+println "----------------------------------------"
+
+# --- BOLUM 3: DONGULER (LOOPS) ---
+println "[3] DONGULER"
+
+println "   -> For Dongusu (1 to 3):"
+int i
+for i = 1 to 3
+    println "      Adim {i}"
+con
+
+println "   -> Geri Sayim (5 to 1 but -2):"
+int k
+for k = 5 to 1 but -2
+    println "      Sayi: {k}"
+con
+
+println "   -> While Dongusu:"
+int w = 3
+while w > 0
+    print " {w}.."
+    w = w - 1
+end
+println " sifir!"
+println "----------------------------------------"
+
+# --- BOLUM 4: DIZILER (ARRAYS) ---
+println "[4] DIZILER VE DINAMIK BELLEK"
+
+# Statik Dizi
+int[] notlar = [10, 20, 30]
+println "   Statik Dizi: {notlar}"
+println "   Uzunluk: {len(notlar)}"
+
+# Dinamik Dizi (array[])
+array[] sepet = []
+println "   Sepet Bos mu? Uzunluk: {len(sepet)}"
+
+println "   -> Sepete elman ekleniyor (add)..."
+add sepet "Elma"
+add sepet "Armut"
+add sepet 99.9
+
+println "   Sepet: {sepet}"
+println "   Yeni Uzunluk: {len(sepet)}"
+
+println "   -> Dizi Elemani Degistirme:"
+sepet[0] = "Karpuz"
+println "   Yeni Sepet: {sepet}"
+println "----------------------------------------"
+
+# --- BOLUM 5: RASTGELELIK (RANDOM) ---
+println "[5] RASTGELELIK TESTI"
+int zar1 = random(1, 6)
+int zar2 = random(1, 6)
+println "   Zar 1: {zar1}"
+println "   Zar 2: {zar2}"
+println "   Toplam: {zar1 + zar2}"
+
+if zar1 == zar2
+    println "   (Cift geldi!)"
+finn
+println "----------------------------------------"
+
+# --- BOLUM 6: ALGORITMA TESTI (FIBONACCI) ---
+println "[6] ALGORITMA TESTI: FIBONACCI"
+# İlk 10 Fibonacci sayısını bulalım
+int n = 10
+int n1 = 0
+int n2 = 1
+int next_n
+
+print "   Seri: {n1}, {n2}"
+
+int count
+for count = 2 to n
+    next_n = n1 + n2
+    print ", {next_n}"
+    n1 = n2
+    n2 = next_n
+con
+println ""
+println "========================================"
+println "   TEST TAMAMLANDI - HER SEY YOLUNDA"
+println "========================================"
