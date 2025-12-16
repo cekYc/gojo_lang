@@ -1,0 +1,57 @@
+println "--- GOJO HESAP MAKINESI v1.0 ---"
+
+bool calisiyor = true
+
+while calisiyor
+    println ""
+    println "==== MENU ===="
+    println "1. Toplama (+)"
+    println "2. Cikarma (-)"
+    println "3. Carpma (*)"
+    println "4. Bolme (/)"
+    println "5. Mod Alma (%)"
+    println "0. Cikis"
+    println "=============="
+
+    int secim = input "Islem Numarasi Secin: "
+
+    # Çıkış Kontrolü
+    if secim == 0
+        println "Gule gule..."
+        calisiyor = false
+    else
+        # Sayıları al (Ondalıklı olabilir diye double yaptık)
+        double s1 = input "Birinci Sayi: "
+        double s2 = input "Ikinci Sayi: "
+
+        println "----------------"
+
+        if secim == 1
+            println "SONUC: {s1} + {s2} = {s1 + s2}"
+        finn
+
+        if secim == 2
+            println "SONUC: {s1} - {s2} = {s1 - s2}"
+        finn
+
+        if secim == 3
+            println "SONUC: {s1} * {s2} = {s1 * s2}"
+        finn
+
+        if secim == 4
+            # YENİ ÖZELLİK: 'isnt' kullanımı!
+            if s2 isnt 0
+                println "SONUC: {s1} / {s2} = {s1 / s2}"
+            else
+                println "HATA: Bir sayi 0'a bolunemez!"
+            finn
+        finn
+
+        if secim == 5
+             # Mod almada double sorunu olmasın diye int'e çevirerek gösterelim
+             println "SONUC: {s1} % {s2} = {s1 % s2}"
+        finn
+        
+        println "----------------"
+    finn
+end
