@@ -79,9 +79,9 @@ array[] sepet = []
 println "   Sepet Bos mu? Uzunluk: {len(sepet)}"
 
 println "   -> Sepete elman ekleniyor (add)..."
-add sepet "Elma"
-add sepet "Armut"
-add sepet 99.9
+add (sepet) "Elma"
+add (sepet) "Armut"
+add (sepet) 99.9
 
 println "   Sepet: {sepet}"
 println "   Yeni Uzunluk: {len(sepet)}"

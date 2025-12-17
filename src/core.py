@@ -87,7 +87,11 @@ def run_gojo(filename):
                 print(f"HATA: add kullanım: add((degisken) <değer>)")
             else:
                 raw = parts[1].strip()
-                # allow caller to write add((var) or add((var)) or old add var
+                # Require parantezli değişken adı: e.g. add((myList)
+                if not (raw.startswith('(') and raw.endswith(')')):
+                    print(f"HATA: add kullanım: add((degisken) <değer>) — parantezli değişken adı zorunludur")
+                    i += 1
+                    continue
                 varname = raw.lstrip('(').rstrip(')')
                 expr = parts[2]
                 if varname in memory and isinstance(memory[varname], list):
