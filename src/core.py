@@ -1,7 +1,7 @@
 # core.py
 import os
 import re
-from state import memory, var_types
+from state import memory, var_types, functions, call_stack  # functions ve call_stack eklendi
 from stdlib import builtins
 from utils import clean_expr, parse_value, format_text
 
@@ -36,6 +36,161 @@ def run_gojo(filename):
             continue
 
         first_word = line.split()[0]
+
+        # Önce şu anki kelimenin "Parantezden önceki kısmını" alalım
+        # Örn: "topla(10,"  -> "topla" olur.
+        func_candidate = first_word.split('(')[0]
+
+        # --- YENİ: FUNCTION CALL (GENEL, SATIR İÇİ DEĞER DÖNÜŞÜ DE DESTEKLİ) ---
+        # Satırın ilk görünen fonksiyon çağrısını yakala (gömülü veya tek başına)
+        m = re.search(r'(\w+)\s*\((.*?)\)', line)
+        if m and m.group(1) in functions:
+            func_name = m.group(1)
+            func_data = functions[func_name]
+            args_str = m.group(2).strip()
+            if args_str:
+                call_args = [arg.strip() for arg in args_str.split(',')]
+            else:
+                call_args = []
+
+            # Parametre sayısı kontrolü
+            if len(call_args) != len(func_data['args']):
+                print(f"HATA: '{func_name}' fonksiyonu {len(func_data['args'])} parametre bekliyor, {len(call_args)} verildi.")
+                i += 1
+                continue
+
+            try:
+                # temiz return alanı
+                memory['__last_ret__'] = None
+
+                # Map params
+                for idx, param_name in enumerate(func_data['args']):
+                    val = eval(clean_expr(call_args[idx]), builtins, memory)
+                    memory[param_name] = val
+                    if isinstance(val, int): var_types[param_name] = 'int'
+                    elif isinstance(val, float): var_types[param_name] = 'double'
+                    elif isinstance(val, str): var_types[param_name] = 'string'
+
+                # Determine if call is embedded (e.g., "x = fn(...)" or "print(fn(...))")
+                call_span_start, call_span_end = m.start(0), m.end(0)
+                embedded = not line.strip() == line[call_span_start:call_span_end].strip()
+
+                # Push a tuple: (return_line_index, reprocess_flag, original_line, call_span_start, call_span_end)
+                call_stack.append((i, embedded, lines[i], call_span_start, call_span_end))
+
+                # Jump into function body
+                i = func_data['start_line']
+                continue
+            except Exception as e:
+                print(f"Fonksiyon cagirma hatasi: {e}")
+                return
+
+        # --- YENİ: FUN (Fonksiyon Tanımlama) ---
+        # Örn: fun topla(a, b)
+        elif first_word == 'fun':
+            try:
+                # Regex ile isim ve parametreleri al
+                match = re.search(r'fun\s+(\w+)\((.*)\)', line)
+                if match:
+                    f_name = match.group(1)
+                    f_args_str = match.group(2).strip()
+                    if f_args_str:
+                        f_args = [arg.strip() for arg in f_args_str.split(',')]
+                    else:
+                        f_args = []
+                    
+                    # Fonksiyonu kaydet
+                    functions[f_name] = {
+                        'args': f_args,
+                        'start_line': i + 1  # Başlangıç satırı: fonksiyon gövdesinin ilk satırı
+                    }
+                    
+                    # ÖNEMLİ: Fonksiyonun içini şimdi çalıştırma! 'cursed' bulana kadar atla.
+                    nested_fun = 0
+                    temp_i = i + 1
+                    found_end = False
+                    while temp_i < len(lines):
+                        chk_line = lines[temp_i].strip().split()
+                        if not chk_line: 
+                            temp_i += 1
+                            continue
+                        
+                        if chk_line[0] == 'fun': nested_fun += 1
+                        elif chk_line[0] == 'cursed':
+                            if nested_fun == 0:
+                                i = temp_i # Ana döngüyü 'cursed' satırına taşı (atla)
+                                found_end = True
+                                break
+                            nested_fun -= 1
+                        temp_i += 1
+                    
+                    if not found_end:
+                        print(f"HATA: '{f_name}' fonksiyonu kapatilmamis (cursed eksik).")
+                        return
+                else:
+                    print(f"HATA: Hatali fonksiyon tanimi. Ornek: fun isim(a, b)")
+                    return
+            except Exception as e:
+                print(f"Fonksiyon tanimlama hatasi: {e}")
+                return
+
+        # --- YENİ: CURSED (Fonksiyon Sonu / Return) ---
+        elif first_word == 'cursed':
+            # Eğer bir fonksiyon çağrısından geldiysek, geri dön
+            if len(call_stack) > 0:
+                ret_entry = call_stack.pop()
+                # ret_entry: (return_line_index, embedded_flag, original_line, start, end)
+                if isinstance(ret_entry, tuple):
+                    return_line, embedded, orig_line, cs, ce = ret_entry
+                    if embedded:
+                        # Replace the function call in the original line with the returned value literal
+                        repl = repr(memory.get('__last_ret__'))
+                        new_line = orig_line[:cs] + repl + orig_line[ce:]
+                        # preserve newline if existed
+                        if lines[return_line].endswith("\n"):
+                            lines[return_line] = new_line.rstrip("\n") + "\n"
+                        else:
+                            lines[return_line] = new_line
+                        # Re-run the same line after return: set i = return_line - 1 so i +=1 processes it
+                        i = return_line - 1
+                    else:
+                        i = return_line
+                else:
+                    # backward compatibility: integer entry
+                    i = ret_entry
+            else:
+                pass
+
+        # --- YENİ: RETURN (Fonksiyon İçinden Değer Döndürme) ---
+        elif first_word == 'return':
+            expr = line[len('return'):].strip()
+            try:
+                if expr:
+                    val = eval(clean_expr(expr), builtins, memory)
+                else:
+                    val = None
+                memory['__last_ret__'] = val
+                if len(call_stack) > 0:
+                    ret_entry = call_stack.pop()
+                    if isinstance(ret_entry, tuple):
+                        return_line, embedded, orig_line, cs, ce = ret_entry
+                        if embedded:
+                            repl = repr(memory.get('__last_ret__'))
+                            new_line = orig_line[:cs] + repl + orig_line[ce:]
+                            if lines[return_line].endswith("\n"):
+                                lines[return_line] = new_line.rstrip("\n") + "\n"
+                            else:
+                                lines[return_line] = new_line
+                            i = return_line - 1
+                        else:
+                            i = return_line
+                    else:
+                        i = ret_entry
+                else:
+                    pass
+            except Exception as e:
+                print(f"Return hatasi: {e}")
+                return
 
         # 1. TANIMLAMA
         base_types = ['int', 'string', 'double', 'bool', 'char']

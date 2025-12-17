@@ -1,0 +1,42 @@
+println "=== JUJUTSU KAISEN: CURSED TECHNIQUES ==="
+println ""
+
+# --- FONKSIYON TANIMLAMA ---
+# Parametreli fonksiyon
+fun topla(sayi1, sayi2)
+    println "   > Teknik Calisiyor: {sayi1} + {sayi2}"
+    int sonuc = sayi1 + sayi2
+    println "   > Sonuc: {sonuc}"
+    return sonuc
+cursed
+
+# Parametresiz fonksiyon
+fun domain_expansion()
+    # println "   DOMAIN EXPANSION: Infinite Void!"
+    # println "   (Rakip haraket edemiyor...)"
+    string technique_name = "   > DOMAIN EXPANSION: Infinite Void"
+    string technique_effect = "   (Rakip haraket edemiyor...)"
+    return technique_name + "\n" + technique_effect
+cursed
+
+# --- ANA PROGRAM ---
+println "[1] Toplama Teknigi Deneniyor..."
+int toplam 
+toplam = topla(30, 50)
+println "   > Toplam Sonucu: {toplam}"
+
+
+println ""
+println "[2] Tekrar Deneniyor..."
+topla(50, 50)
+
+println ""
+println "[3] Alan Genisletme..."
+domain_expansion()
+
+println ""
+string domain_result = domain_expansion()
+println domain_result
+
+println ""
+println "Program Bitti."
