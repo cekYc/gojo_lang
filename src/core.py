@@ -80,12 +80,15 @@ def run_gojo(filename):
                     elif tip == 'char': memory[var] = ''
                     var_types[var] = tip
 
-        # 1.b ADD
+        # 1.b ADD (yeni söz dizimi: add((var) <değer>) — parantezli değişken adı kabul edilir)
         elif first_word == 'add':
             parts = line.split(None, 2)
-            if len(parts) < 3: print(f"HATA: add kullanım: add <dizi> <değer>")
+            if len(parts) < 3:
+                print(f"HATA: add kullanım: add((degisken) <değer>)")
             else:
-                varname = parts[1]
+                raw = parts[1].strip()
+                # allow caller to write add((var) or add((var)) or old add var
+                varname = raw.lstrip('(').rstrip(')')
                 expr = parts[2]
                 if varname in memory and isinstance(memory[varname], list):
                     vtip = var_types.get(varname, None)
@@ -95,7 +98,8 @@ def run_gojo(filename):
                         else:
                             val = eval(clean_expr(expr), builtins, memory)
                         memory[varname].append(val)
-                    except Exception as e: print(f"Add hatasi: {e}")
+                    except Exception as e:
+                        print(f"Add hatasi: {e}")
 
         # 1.c APPEND (+=)
         elif '+=' in line and first_word not in ['if', 'while', 'for', 'print', 'println', 'con']:
